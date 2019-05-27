@@ -139,27 +139,50 @@ public class MainFragment extends BrowseFragment {
 
     private void setAdapterData() {
         ArrayObjectAdapter rowsAdapter = new ArrayObjectAdapter(new ListRowPresenter());
+        int limit = 5;
 
         HeaderItem gridHeader = new HeaderItem(0, "会员专区");
         GridItemPresenter mGridPresenter = new GridItemPresenter();
-        ArrayObjectAdapter gridRowAdapter = new ArrayObjectAdapter(mGridPresenter);
-        gridRowAdapter.addAll(0, imageList);
-        rowsAdapter.add(new ListRow(gridHeader, gridRowAdapter));
+        int cloumCount = imageList.size() / limit + (imageList.size() % limit > 0 ? 1 : 0);
+        for (int i = 0, j = 0; j < cloumCount; i = i + 5, j++) {
+            ArrayObjectAdapter gridRowAdapter = new ArrayObjectAdapter(mGridPresenter);
+            if (cloumCount - 1 == j) {
+                gridRowAdapter.addAll(0, imageList.subList(i, imageList.size()));
+            } else {
+                gridRowAdapter.addAll(0, imageList.subList(i, i + 5));
+            }
+            //只有第一行才会有标题头
+            if (i == 0) {
+                rowsAdapter.add(new ListRow(gridHeader, gridRowAdapter));
+            } else {
+                rowsAdapter.add(new ListRow(gridRowAdapter));
+            }
+        }
 
         HeaderItem gridHeader2 = new HeaderItem(0, "企业风采");
         GridItemPresenter mGridPresenter2 = new GridItemPresenter();
-        ArrayObjectAdapter gridRowAdapter2 = new ArrayObjectAdapter(mGridPresenter2);
-        gridRowAdapter2.addAll(0, movieList);
-        rowsAdapter.add(new ListRow(gridHeader2, gridRowAdapter2));
+        int cloumCount2 = movieList.size() / limit + (movieList.size() % limit > 0 ? 1 : 0);
+        for (int i = 0, j = 0; j < cloumCount2; i = i + 5, j++) {
+            ArrayObjectAdapter gridRowAdapter2 = new ArrayObjectAdapter(mGridPresenter2);
+            if (cloumCount2 - 1 == j) {
+                gridRowAdapter2.addAll(0, movieList.subList(i, movieList.size()));
+            } else {
+                gridRowAdapter2.addAll(0, movieList.subList(i, i + 5));
+            }
+            //只有第一行才会有标题头
+            if (i == 0) {
+                rowsAdapter.add(new ListRow(gridHeader2, gridRowAdapter2));
+            } else {
+                rowsAdapter.add(new ListRow(gridRowAdapter2));
+            }
+        }
 
         setAdapter(rowsAdapter);
     }
 
     private void prepareBackgroundManager() {
-
         mBackgroundManager = BackgroundManager.getInstance(getActivity());
         mBackgroundManager.attach(getActivity().getWindow());
-
         mDefaultBackground = ContextCompat.getDrawable(getActivity(), R.drawable.default_background);
         mMetrics = new DisplayMetrics();
         getActivity().getWindowManager().getDefaultDisplay().getMetrics(mMetrics);
