@@ -1,23 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="200dp"
-    android:layout_height="200dp"
-    android:layout_gravity="center">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="300dp"
+    android:layout_height="220dp"
+    android:layout_gravity="center"
+    android:padding="15dp"
+    android:background="@color/transparent">
+
+    <!--<android.support.v17.leanback.widget.ImageCardView-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"/>-->
 
     <ImageView
         android:id="@+id/iv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scaleType="centerCrop"
-        android:src="@mipmap/test"/>
+        android:scaleType="centerInside"
+        android:layout_marginBottom="30dp"
+        android:background="@color/transparent"
+        app:layout_constraintCircleRadius="10dp"
+        android:src="@mipmap/play" />
 
     <TextView
         android:id="@+id/tv"
         android:layout_width="match_parent"
         android:layout_height="30dp"
-        android:gravity="center"
         android:layout_gravity="bottom"
-        android:textColor="@color/lb_tv_white"
-        android:text="测试数据"/>
+        android:gravity="center"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:singleLine="true"
+        android:text="6666666666"
+        android:background="@color/transparent"
+        android:textColor="@color/lb_tv_white" />
+
+    <ImageView
+        android:id="@+id/ivIcon"
+        android:visibility="gone"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center"
+        android:scaleType="centerCrop"
+        android:src="@mipmap/play" />
 
 </FrameLayout>

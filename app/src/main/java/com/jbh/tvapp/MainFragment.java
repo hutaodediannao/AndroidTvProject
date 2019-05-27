@@ -22,6 +22,7 @@ import android.support.v17.leanback.app.BackgroundManager;
 import android.support.v17.leanback.app.BrowseFragment;
 import android.support.v17.leanback.widget.ArrayObjectAdapter;
 import android.support.v17.leanback.widget.HeaderItem;
+import android.support.v17.leanback.widget.ImageCardView;
 import android.support.v17.leanback.widget.ListRow;
 import android.support.v17.leanback.widget.ListRowPresenter;
 import android.support.v17.leanback.widget.OnItemViewClickedListener;
@@ -171,7 +172,6 @@ public class MainFragment extends BrowseFragment {
         // over title
         setHeadersState(HEADERS_ENABLED);
         setHeadersTransitionOnBackEnabled(true);
-
         // set fastLane (or headers) background color
         setBrandColor(ContextCompat.getColor(getActivity(), R.color.lb_preference_item_category_text_color));
         // set search icon color
@@ -197,7 +197,8 @@ public class MainFragment extends BrowseFragment {
                     public void onResourceReady(GlideDrawable resource,
                                                 GlideAnimation<? super GlideDrawable>
                                                         glideAnimation) {
-                        mBackgroundManager.setDrawable(resource);
+//                        mBackgroundManager.setDrawable(resource);
+                        mBackgroundManager.setDrawable(getResources().getDrawable(R.color.mediacontroller_bg));
                     }
                 });
         mBackgroundTimer.cancel();
@@ -244,9 +245,11 @@ public class MainFragment extends BrowseFragment {
             try {
                 if (item instanceof Movie) {
                     mBackgroundUri = ((Movie) item).getVideoFile().getFileUrl();
+                    //修改背景为图片
                     startBackgroundTimer();
                 } else if (item instanceof Image) {
                     mBackgroundUri = ((Image) item).getImgFile().getFileUrl();
+                    //修改背景为图片
                     startBackgroundTimer();
                 }
             } catch (Exception e) {
@@ -275,7 +278,7 @@ public class MainFragment extends BrowseFragment {
             rootView.setLayoutParams(new ViewGroup.LayoutParams(GRID_ITEM_WIDTH, GRID_ITEM_HEIGHT));
             rootView.setFocusable(true);
             rootView.setFocusableInTouchMode(true);
-            rootView.setBackgroundColor(ContextCompat.getColor(getActivity(), R.color.default_background));
+            rootView.setBackgroundColor(ContextCompat.getColor(getActivity(), R.color.transparent));
             return new ViewHolder(rootView);
         }
 
@@ -284,15 +287,22 @@ public class MainFragment extends BrowseFragment {
             try {
                 View rootView = viewHolder.view;
                 ImageView iv = rootView.findViewById(R.id.iv);
+//                ImageCardView iv = rootView.findViewById(R.id.iv);
+                iv.setBackgroundColor(getResources().getColor(R.color.transparent));
+//                iv.getMainImageView().setScaleType(ImageView.ScaleType.FIT_XY);
                 TextView tv = rootView.findViewById(R.id.tv);
+                View iconView = rootView.findViewById(R.id.ivIcon);
                 if (item instanceof Movie) {
                     Movie movie = (Movie) item;
                     Glide.with(getActivity()).load(movie.getImageFile().getFileUrl()).into(iv);
                     tv.setText(movie.getTitle());
+//                    iconView.setVisibility(View.VISIBLE);
+                    iconView.setVisibility(View.GONE);
                 } else if (item instanceof Image) {
                     Image image = (Image) item;
                     Glide.with(getActivity()).load(image.getImgFile().getFileUrl()).into(iv);
                     tv.setText(image.getTitle());
+                    iconView.setVisibility(View.GONE);
                 }
             } catch (Exception e) {
                 e.printStackTrace();
